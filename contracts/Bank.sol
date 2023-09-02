@@ -1,12 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AutomationCompatibleInterface.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-import "./PriceConverter.sol";
 
-error FundMe__NotOwner();
 error Bank__UpkeepNotNeeded(uint256 currentBalance, uint256 numborrowers);
 
 
@@ -29,7 +25,6 @@ uint256 private s_lastTimeStamp;
 
     event InterestAppliedOnBorrowedMoney(address indexed borrowerAddress, uint256 indexed newAmount);
 
-    AggregatorV3Interface public s_priceFeed;
  
 
     constructor() {
@@ -184,14 +179,23 @@ uint256 private s_lastTimeStamp;
     }
 
 
-    function getAddressToAmountFunded(
+    function getAddressToAmountLended(
         address funder
     ) public view returns (uint256) {
         return s_addressToAmountLended[funder];
     }
 
-    function getFunder(uint256 index) public view returns (address) {
+    function getLender(uint256 index) public view returns (address) {
         return s_lenders[index];
+    }
+    function getAddressToBorrower(
+        address funder
+    ) public view returns ( Borrower memory) {
+        return s_addressToBorrower[funder];
+    }
+
+    function getBorrower(uint256 index) public view returns (address) {
+        return s_borrowers[index];
     }
 
     // Explainer from: https://solidity-by-example.org/fallback/

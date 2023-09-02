@@ -161,7 +161,6 @@ uint256 private s_lastTimeStamp;
         bytes calldata /* performData */
     ) external override {
         (bool upkeepNeeded, ) = checkUpkeep("");
-        // require(upkeepNeeded, "Upkeep not needed");
         if (!upkeepNeeded) {
             revert Bank__UpkeepNotNeeded(
                 address(this).balance,
@@ -196,6 +195,9 @@ uint256 private s_lastTimeStamp;
 
     function getBorrower(uint256 index) public view returns (address) {
         return s_borrowers[index];
+    }
+    function getInterval() public view returns (uint256){
+        return i_interval;
     }
 
     // Explainer from: https://solidity-by-example.org/fallback/
